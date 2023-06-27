@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "fake_recognition/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "fake_recognition/wsgi.py"
+      }
+    ]
+}
