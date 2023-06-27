@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "classification-news"
+version = "0.1.0"
+description = "Neural Network for recognize fake news"
+authors = ["Ganbarov Guseyn"]
+readme = "README.md"
+packages = [{include = "classification_news"}]
+
+[tool.poetry.dependencies]
+python = "3.9.7"
+pandas = "^2.0.2"
+nltk = "^3.8.1"
+pymystem3 = "^0.2.0"
+tensorflow = "2.10.0"
+tensorflow-io-gcs-filesystem = "0.31.0"
+pybind11 = "^2.10.4"
+fasttext = {git = "https://github.com/cfculhane/fastText", rev = "main"}
+numpy = "1.23.5"
+ipykernel = "^6.23.2"
+django = "4.1.2"
+djangorestframework = "3.12.4"
+matplotlib = "^3.7.1"
+django-widget-tweaks = "1.4.12"
+compress-fasttext = "^0.1.3"
+coreapi = "^2.3.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

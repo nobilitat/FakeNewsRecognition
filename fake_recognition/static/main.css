@@ -1,0 +1,20 @@
+.nopadding {
+    padding: 0 !important;
+}
+
+.bg-fakerec {
+  background-color: #e5f2ff !important;
+}
+
+.bg-true {
+  background-color: rgba(0, 128, 0, 0.09);
+}
+
+.bg-false {
+  background-color: rgba(255, 0, 0 , 0.1);
+}
+
+.alert-fakerec {
+  background-color: #e5f2ff !important;
+  color: #0381ff !important;
+}

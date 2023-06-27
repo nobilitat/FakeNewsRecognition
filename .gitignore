@@ -1,0 +1,5 @@
+venv/
+cc.ru.300.bin
+cc.ru.300.bin.gz
+__pycache__/
+migrations/

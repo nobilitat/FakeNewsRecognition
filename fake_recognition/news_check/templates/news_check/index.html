@@ -1,0 +1,148 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Recognition</title>
+    <link rel="stylesheet" href="../../../static/bootstrap5.0.2/css/bootstrap.css">
+    <link rel="stylesheet" href="../../../static/main.css">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+</head>
+<body>  
+    <div class="container bg-dark bg-gradient rounded-1">
+        <div class="row py-3">
+            <div class="col">
+                <a class="text-decoration-none text-light" href="{% url 'home' %}"><h2>Fake Recognition</h2></a>
+            </div>
+        </div>
+    </div>
+    
+
+    <!--Раздел проверки новости-->
+    <div class="container my-3 text-center">
+        <h3 class="pb-3">Введите текст новостной статьи и нажмите "Проверить"</h3>
+
+        <div class="row mx-auto pt-2">
+            <div class="col-lg-3 col-md-2"></div>
+            
+            <div class="col-md-8 col-lg-6">
+                <div class="form-group">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == "success" %}
+                                <div class='alert alert-fakerec'>{{ message }}</div>
+                            {% elif message.tags == "error" %}
+                                <div class='alert alert-danger'>{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+
+        <div class="row mx-auto">
+            <div class="col-lg-3 col-md-2"></div>
+            
+            <div class="col-md-8 col-lg-6">
+                <form class="nopadding" id="add_article" method="POST" action="{% url 'create_article' %}">
+                    {% csrf_token %}
+    
+                    {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        {{ field|add_class:'form-control' }}
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>
+
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+        <div class="row mx-auto pt-2">
+            <div class="col-lg-3 col-md-2"></div>
+            
+            <div class="col-md-8 col-lg-6">
+                <button form="add_article" type="submit" class="btn btn-primary bg-gradient px-5 w-100">Проверить</button>
+            </div>
+
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+    
+
+    <!--Раздел последних новостей-->
+    <div class="container my-3 pb-3 text-center">
+            <h3 class="py-3">Последние проверенные новости</h3>
+
+            <div class="row w-100 mt-3 fw-bold text-secondary">
+                <div class="col-8">Текст статьи</div>
+                <div class="col-4">Класс</div>
+            </div> 
+
+            {% for i in page_obj %}
+
+            {% if i.category == 'Истина' %}
+            <div class="row w-100 bg-true bg-gradient my-3 rounded-2">
+                <p>
+                    <div class="col-8">{{i.text}}</div>
+                    
+                    <div class="col-4">{{i.category}}</div>
+                </p>
+            </div>
+            {% else %}
+            <div class="row w-100 bg-false bg-gradient my-3 rounded-2">
+                <p>
+                    <div class="col-8">{{i.text}}</div>
+                    
+                    <div class="col-4">{{i.category}}</div>
+                </p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    
+
+    <!--Пагинация-->
+    <nav class="container text-center mb-3">
+        
+        {% if page_obj.has_previous %}
+            <a class="text-decoration-none p-1 border border-2 fw-bold" href="?page=1"><<</a>
+            <a class="text-decoration-none p-1 border border-2 fw-bold" href="?page={{ page_obj.previous_page_number }}"><</a>
+        {% else %}
+            <a class="text-decoration-none p-1 border border-2 text-secondary fw-bold"><<</a>
+            <a class="text-decoration-none p-1 border border-2 text-secondary fw-bold"><</a>
+        {% endif %}
+
+        {% if page_obj.number|add:'-2' > 1 %}
+            <a href="?page={{ page_obj.number|add:'-2' }}">&hellip;</a>
+        {% endif %}
+
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+                <a class="pe-2 text-decoration-none text-secondary" href="#">{{ i }}</a>
+            {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+                <a class="pe-2 text-decoration-none" href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.paginator.num_pages >= page_obj.number|add:'2' %}
+            <a class="pe-2" href="?page={{ page_obj.number|add:'-2' }}">&hellip;</a>
+            <a href="?page={{ i }}">{{ i }}</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a class="p-1 text-decoration-none border border-2 fw-bold" href="?page={{ page_obj.next_page_number }}">></a>
+            <a class="p-1 text-decoration-none border border-2 fw-bold" href="?page={{ page_obj.paginator.num_pages }}">>></a>
+        {% else %}
+            <a class="text-decoration-none p-1 border border-2 text-secondary fw-bold">></a>
+            <a class="text-decoration-none p-1 border border-2 text-secondary fw-bold">>></a>
+        {% endif %}
+    </nav>
+</body>
+</html>
