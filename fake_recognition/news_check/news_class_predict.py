@@ -28,12 +28,14 @@ def predict_class(text) -> int:
 
     predicted_class = model.predict(x_predict)
     print(predicted_class)
-    # 3 условие value >= 0.5 and value < 0.6:
+    value = predicted_class[0][0][0]
 
-    if predicted_class[0][0][0] > 0.55:
+    if value >= 0.7:
         return 'Истина'
-    else:
+    elif value <= 0.3:
         return 'Ложь'
+    else:
+        return 'Неопределенная'
 
 
 def prepare_text(text: str) -> list:

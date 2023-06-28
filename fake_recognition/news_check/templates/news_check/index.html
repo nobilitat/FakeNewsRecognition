@@ -93,8 +93,16 @@
                     <div class="col-4">{{i.category}}</div>
                 </p>
             </div>
-            {% else %}
+            {% elif i.category == 'Ложь' %}
             <div class="row w-100 bg-false bg-gradient my-3 rounded-2">
+                <p>
+                    <div class="col-8">{{i.text}}</div>
+                    
+                    <div class="col-4">{{i.category}}</div>
+                </p>
+            </div>
+            {% else %}
+            <div class="row w-100 bg-fakerec bg-gradient my-3 rounded-2">
                 <p>
                     <div class="col-8">{{i.text}}</div>
                     
